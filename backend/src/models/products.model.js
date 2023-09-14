@@ -2,13 +2,14 @@ const connection = require('./connection');
 
 const findAll = async () => {
   const [products] = await connection.execute(
-    'SELECT * FROM products',
+    `SELECT * FROM products
+    ORDER BY id ASC`,
   );
   return products;
 };
 
 const findById = async (id) => {
-  const [product] = await connection.execute(
+  const [[product]] = await connection.execute(
     'SELECT * FROM products WHERE id = ?',
     [id],
   );
