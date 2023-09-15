@@ -1,3 +1,4 @@
+const camelize = require('camelize');
 const connection = require('./connection');
 
 const findAll = async () => {
@@ -10,7 +11,7 @@ const findAll = async () => {
     INNER JOIN sales AS SA ON SP.sale_id = SA.id
     ORDER BY SP.sale_id, SP.product_id;`,
   );
-  return sales;
+  return camelize(sales);
 };
 
 const findById = async (id) => {
@@ -23,7 +24,7 @@ const findById = async (id) => {
     WHERE SP.sale_id = ?;`,
     [id],
   );
-  return sale;
+  return camelize(sale);
 };
 
 module.exports = {
