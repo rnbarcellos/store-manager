@@ -10,7 +10,7 @@ const showAllSales = async () => {
 
 const showSaleById = async (id) => {
   const sale = await salesModel.findById(id);
-  if (!sale) {
+  if (sale.length === 0) {
     return {
       status: 404,
       data: {
