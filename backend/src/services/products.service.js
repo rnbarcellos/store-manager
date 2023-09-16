@@ -25,7 +25,16 @@ const showProductById = async (id) => {
   };
 };
 
+const addNewProduct = async (name) => {
+  const product = await productsModel.addNewProduct(name);
+  return {
+    status: 201,
+    data: product,
+  };
+};
+
 module.exports = {
   showAllProducts,
   showProductById,
+  addNewProduct,
 };
