@@ -1,13 +1,14 @@
 const { validateProduct } = require('../validations/products.validations');
 
+const handleValidation = (validation, res) => {
+  let status = 400;
+  if (validation.includes('length')) status = 422;
+  return res.status(status).json({ message: validation });
+};
+
 const validateNewProduct = async (req, res, next) => {
   const validation = validateProduct(req.body);
-  if (validation === '"name" is required') {
-    return res.status(400).json({ message: validation });
-  }
-  if (validation === '"name" length must be at least 5 characters long') {
-    return res.status(422).json({ message: validation });
-  }
+  if (validation) return handleValidation(validation, res);
   next();
 };
 
