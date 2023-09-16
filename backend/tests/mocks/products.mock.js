@@ -18,7 +18,13 @@ const productByIdFromDB = {
   name: 'Martelo de Thor',
 };
 
+const newProductAddedToDB = {
+  id: 4,
+  name: 'Asas do Falcão',
+};
+
 module.exports = {
   allProductsFromDB,
   productByIdFromDB,
+  newProductAddedToDB,
 };

@@ -48,4 +48,15 @@ describe('Testando o model de produtos', function () {
 
     expect(product).to.be.an('undefined');
   });
+
+  it('Será validado que é possível adicionar um novo produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{
+      insertId: 4,
+    }]);
+
+    const product = await productsModel.addNewProduct('Asas do Falcão');
+
+    expect(product).to.be.an('object');
+    expect(product).to.have.all.keys('id', 'name');
+  });
 });
