@@ -77,4 +77,27 @@ describe('Testando o controller de produtos', function () {
     expect(res.status.calledWith(404)).to.be.equal(true);
     expect(res.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
   });
+
+  it('Será validado que é possível adicionar um novo produto', async function () {
+    sinon.stub(productsService, 'addNewProduct').resolves({
+      status: 201,
+      data: newProductAddedToDB,
+    });
+
+    const req = {
+      body: {
+        name: 'Asas do Falcão',
+      },
+    };
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productsController.addNewProduct(req, res);
+
+    expect(res.status.calledWith(201)).to.be.equal(true);
+    expect(res.json.calledWith(newProductAddedToDB)).to.be.equal(true);
+  });
 });
