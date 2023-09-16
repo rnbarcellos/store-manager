@@ -9,10 +9,7 @@ const productSchema = joi.object({
 
 const validateProduct = (newProduct) => {
   const { error } = productSchema.validate(newProduct);
-  if (error) {
-    return error.message;
-  }
-  return false;
+  return error ? error.message : null;
 };
 
 module.exports = {
