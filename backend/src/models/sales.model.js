@@ -27,7 +27,32 @@ const findById = async (id) => {
   return camelize(sale);
 };
 
+const createNewSale = async (itemsSold) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO sales (date) VALUES (?)',
+    [new Date().toISOString().split('T')[0]],
+  );
+
+  const insertPromise = [];
+  itemsSold.forEach(({ productId, quantity }) => {
+    insertPromise.push(
+      connection.execute(
+        'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+        [insertId, productId, quantity],
+      ),
+    );
+  });
+
+  await Promise.all(insertPromise);
+
+  return {
+    id: insertId,
+    itemsSold,
+  };
+};
+
 module.exports = {
   findAll,
   findById,
+  createNewSale,
 };

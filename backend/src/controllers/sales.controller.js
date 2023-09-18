@@ -11,7 +11,14 @@ const showSaleById = async (req, res) => {
   res.status(sale.status).json(sale.data);
 };
 
+const createNewSale = async (req, res) => {
+  const { body } = req;
+  const newSale = await salesService.createNewSale(body);
+  res.status(newSale.status).json(newSale.data);
+};
+
 module.exports = {
   showAllSales,
   showSaleById,
+  createNewSale,
 };
