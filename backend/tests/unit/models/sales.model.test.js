@@ -41,5 +41,8 @@ describe('Testa o model de sales', function () {
     expect(response.itemsSold).to.have.lengthOf(2);
     expect(response.itemsSold[0]).to.be.an('object');
     expect(response.itemsSold[1]).to.be.an('object');
+    expect(response.promises).to.be.an('array');
+    expect(response.promises).to.have.lengthOf(2);
+    expect(response.id).to.be.equal(4);
   });
 });
