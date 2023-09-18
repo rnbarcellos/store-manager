@@ -27,11 +27,16 @@ const findById = async (id) => {
   return camelize(sale);
 };
 
-const createNewSale = async (itemsSold) => {
+const create = async () => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO sales (date) VALUES (?)',
     [new Date().toISOString().split('T')[0]],
   );
+  return insertId;
+};
+
+const createNewSale = async (itemsSold) => {
+  const insertId = await create();
 
   const insertPromise = [];
   itemsSold.forEach(({ productId, quantity }) => {
@@ -43,11 +48,12 @@ const createNewSale = async (itemsSold) => {
     );
   });
 
-  await Promise.all(insertPromise);
+  const promises = await Promise.all(insertPromise);
 
   return {
     id: insertId,
     itemsSold,
+    promises,
   };
 };
 
