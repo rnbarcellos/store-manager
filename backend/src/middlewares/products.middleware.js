@@ -2,8 +2,8 @@ const { validateProduct } = require('../validations/products.validations');
 const { UNPROCESSABLE_ENTITY, BAD_REQUEST } = require('../utils/httpStatusCode');
 
 const handleValidation = (validation, res) => {
-  let statusCode = UNPROCESSABLE_ENTITY;
-  if (validation.includes('length')) statusCode = BAD_REQUEST;
+  let statusCode = BAD_REQUEST;
+  if (validation.includes('length')) statusCode = UNPROCESSABLE_ENTITY;
   return res.status(statusCode).json({ message: validation });
 };
 

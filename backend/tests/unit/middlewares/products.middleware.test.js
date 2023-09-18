@@ -26,7 +26,7 @@ describe('Testa o middleware validateNewProduct', function () {
     expect(next.called).to.be.equal(false);
   });
 
-  it('é chamado o status 422 e o json com a mensagem de erro quando name é uma string vazia', function () {
+  it('é chamado o status 400 e o json com a mensagem de erro quando name é uma string vazia', function () {
     const req = { body: { name: '' } };
     const res = {
       status: sinon.stub().returnsThis(),
@@ -36,11 +36,11 @@ describe('Testa o middleware validateNewProduct', function () {
 
     validateNewProduct(req, res, next);
 
-    expect(res.status.calledWith(422)).to.be.equal(true);
+    expect(res.status.calledWith(400)).to.be.equal(true);
     expect(res.json.calledWith({ message: '"name" is required' })).to.be.equal(true);
   });
 
-  it('é chamado o status 400 e o json com a mensagem de erro quando name é menos que 5 char', function () {
+  it('é chamado o status 422 e o json com a mensagem de erro quando name é menos que 5 char', function () {
     const req = { body: { name: 'Asa' } };
     const res = {
       status: sinon.stub().returnsThis(),
@@ -50,7 +50,7 @@ describe('Testa o middleware validateNewProduct', function () {
 
     validateNewProduct(req, res, next);
 
-    expect(res.status.calledWith(400)).to.be.equal(true);
+    expect(res.status.calledWith(422)).to.be.equal(true);
     expect(res.json.calledWith({ message: '"name" length must be at least 5 characters long' })).to.be.equal(true);
   });
 
@@ -64,7 +64,7 @@ describe('Testa o middleware validateNewProduct', function () {
 
     validateNewProduct(req, res, next);
 
-    expect(res.status.calledWith(422)).to.be.equal(true);
+    expect(res.status.calledWith(400)).to.be.equal(true);
     expect(res.json.calledWith({ message: '"name" is required' })).to.be.equal(true);
   });
 });
