@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { validateNewProduct } = require('../../../src/middlewares/newProduct.middleware');
+const { validateNewProduct } = require('../../../src/middlewares/products.middleware');
 
 describe('Testa o middleware validateNewProduct', function () {
   it('next() é chamado quando não há erros de validação', function () {
