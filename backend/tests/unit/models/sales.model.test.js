@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const { salesModel } = require('../../../src/models');
-const { allSalesFromDb, salesFromDb } = require('../../mocks/sales.mocks');
+const { allSalesFromDb, salesFromDb, itemsSold } = require('../../mocks/sales.mocks');
 const connection = require('../../../src/models/connection');
 
 describe('Testa o model de sales', function () {
@@ -27,5 +27,19 @@ describe('Testa o model de sales', function () {
     expect(response).to.be.an('array');
     expect(response).to.have.lengthOf(2);
     expect(response[0]).to.be.an('object');
+  });
+
+  it('Testa se createNewSale retorna um objeto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+
+    const response = await salesModel.createNewSale(itemsSold);
+
+    expect(response).to.be.an('object');
+    expect(response).to.have.property('id');
+    expect(response).to.have.property('itemsSold');
+    expect(response.itemsSold).to.be.an('array');
+    expect(response.itemsSold).to.have.lengthOf(2);
+    expect(response.itemsSold[0]).to.be.an('object');
+    expect(response.itemsSold[1]).to.be.an('object');
   });
 });
