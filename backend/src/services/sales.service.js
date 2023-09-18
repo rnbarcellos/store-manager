@@ -1,5 +1,6 @@
 const { salesModel } = require('../models');
 const httpStatusCode = require('../utils/httpStatusCode');
+const { productsModel } = require('../models');
 
 const showAllSales = async () => {
   const sales = await salesModel.findAll();
@@ -26,8 +27,23 @@ const showSaleById = async (id) => {
   };
 };
 
-const createNewSale = async (itensSold) => {
-  const { id, itemsSold } = await salesModel.createNewSale(itensSold);
+const createNewSale = async (itemsRequested) => {
+  const checkProducts = await Promise.all(itemsRequested.map(async (item) => {
+    const product = await productsModel.findById(item.productId);
+    return product;
+  }));
+
+  if (checkProducts.some((product) => product === undefined)) {
+    return {
+      status: httpStatusCode.NOT_FOUND,
+      data: {
+        message: 'Product not found',
+      },
+    };
+  }
+  
+  const { id, itemsSold } = await salesModel.createNewSale(itemsRequested);
+
   return {
     status: httpStatusCode.CREATED,
     data: { id, itemsSold },
