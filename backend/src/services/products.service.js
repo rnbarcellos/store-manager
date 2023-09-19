@@ -1,6 +1,13 @@
 const { productsModel } = require('../models');
 const httpStatusCode = require('../utils/httpStatusCode');
 
+const productNotFound = {
+  status: httpStatusCode.NOT_FOUND,
+  data: {
+    message: 'Product not found',
+  },
+};
+
 const showAllProducts = async () => {
   const products = await productsModel.findAll();
   return {
@@ -11,14 +18,7 @@ const showAllProducts = async () => {
 
 const showProductById = async (id) => {
   const product = await productsModel.findById(id);
-  if (!product) {
-    return {
-      status: httpStatusCode.NOT_FOUND,
-      data: {
-        message: 'Product not found',
-      },
-    };
-  }
+  if (!product) return productNotFound;
 
   return {
     status: httpStatusCode.OK,
@@ -36,14 +36,7 @@ const addNewProduct = async (name) => {
 
 const updateProduct = async (id, name) => {
   const productExists = await productsModel.findById(id);
-  if (!productExists) {
-    return {
-      status: httpStatusCode.NOT_FOUND,
-      data: {
-        message: 'Product not found',
-      },
-    };
-  }
+  if (!productExists) return productNotFound;
 
   const product = await productsModel.updateProduct(id, name);
 
@@ -55,14 +48,7 @@ const updateProduct = async (id, name) => {
 
 const deleteProduct = async (id) => {
   const productExists = await productsModel.findById(id);
-  if (!productExists) {
-    return {
-      status: httpStatusCode.NOT_FOUND,
-      data: {
-        message: 'Product not found',
-      },
-    };
-  }
+  if (!productExists) return productNotFound;
 
   await productsModel.deleteProduct(id);
 
