@@ -2,7 +2,9 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesService } = require('../../../src/services');
 const { salesModel, productsModel } = require('../../../src/models');
-const { allSalesFromDb, salesFromDb, itemsSold } = require('../../mocks/sales.mocks');
+const {
+  allSalesFromDb, salesFromDb, itemsSold, invalidItemsSold,
+} = require('../../mocks/sales.mocks');
 
 describe('Testa o service de sales', function () {
   afterEach(function () {
@@ -78,5 +80,22 @@ describe('Testa o service de sales', function () {
     expect(response.data.itemsSold[0].productId).to.be.equals(1);
     expect(response.data.itemsSold[0]).to.have.property('quantity');
     expect(response.data.itemsSold[0].quantity).to.be.equals(5);
+  });
+
+  it('Testa a função createNewSale de service de sales quando não encontra o produto', async function () {
+    const stub = sinon.stub(productsModel, 'findById');
+    stub.onFirstCall().resolves(undefined);
+    stub.onSecondCall().resolves(invalidItemsSold[1]);
+    stub.onThirdCall().resolves(invalidItemsSold[2]);
+
+    const response = await salesService.createNewSale(invalidItemsSold);
+
+    expect(response).to.be.an('object');
+    expect(response).to.have.property('status');
+    expect(response).to.have.property('data');
+    expect(response.status).to.be.equals(404);
+    expect(response.data).to.be.an('object');
+    expect(response.data).to.have.property('message');
+    expect(response.data.message).to.be.equals('Product not found');
   });
 });

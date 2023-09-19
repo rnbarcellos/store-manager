@@ -61,9 +61,25 @@ const itemsSold = [
   },
 ];
 
+const invalidItemsSold = [
+  {
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    productId: 2,
+    quantity: 10,
+  },
+  {
+    productId: 3,
+    quantity: 15,
+  },
+];
+
 module.exports = {
   allSalesFromDb,
   salesFromDb,
   salesCreated,
   itemsSold,
+  invalidItemsSold,
 };
