@@ -23,8 +23,16 @@ const newProductAddedToDB = {
   name: 'Asas do Falcão',
 };
 
+const productNotFound = {
+  status: 404,
+  data: {
+    message: 'Product not found',
+  },
+};
+
 module.exports = {
   allProductsFromDB,
   productByIdFromDB,
   newProductAddedToDB,
+  productNotFound,
 };
