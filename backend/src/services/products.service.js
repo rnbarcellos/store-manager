@@ -34,8 +34,28 @@ const addNewProduct = async (name) => {
   };
 };
 
+const updateProduct = async (id, name) => {
+  const productExists = await productsModel.findById(id);
+  if (!productExists) {
+    return {
+      status: httpStatusCode.NOT_FOUND,
+      data: {
+        message: 'Product not found',
+      },
+    };
+  }
+
+  const product = await productsModel.updateProduct(id, name);
+
+  return {
+    status: httpStatusCode.OK,
+    data: product,
+  };
+};
+
 module.exports = {
   showAllProducts,
   showProductById,
   addNewProduct,
+  updateProduct,
 };
