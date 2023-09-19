@@ -59,4 +59,35 @@ describe('Testando o model de produtos', function () {
     expect(product).to.be.an('object');
     expect(product).to.have.all.keys('id', 'name');
   });
+
+  it('Será validado que é possível atualizar um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{
+      affectedRows: 1,
+    }]);
+
+    const product = await productsModel.updateProduct(1, 'Martelo de Thor');
+
+    expect(product).to.be.an('object');
+    expect(product).to.have.all.keys('id', 'name');
+  });
+
+  it('Será validado que não é possível atualizar um produto com id inexistente', async function () {
+    sinon.stub(connection, 'execute').resolves([{
+      affectedRows: 0,
+    }]);
+
+    const product = await productsModel.updateProduct(5, 'Martelo de Thor');
+
+    expect(product).to.be.an('null');
+  });
+
+  it('Será validado que é possível deletar um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{
+      affectedRows: 1,
+    }]);
+
+    const product = await productsModel.deleteProduct(1);
+
+    expect(product).to.be.equal(1);
+  });
 });
