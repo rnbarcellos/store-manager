@@ -9,6 +9,15 @@ const {
 const { expect } = chai;
 
 describe('Testando o controller de produtos', function () {
+  let res;
+
+  beforeEach(function () {
+    res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+  });
+  
   afterEach(function () {
     sinon.restore();
   });
@@ -18,11 +27,6 @@ describe('Testando o controller de produtos', function () {
       status: 200,
       data: allProductsFromDB,
     });
-
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
 
     await productsController.showAllProducts({}, res);
 
@@ -42,11 +46,6 @@ describe('Testando o controller de produtos', function () {
       },
     };
 
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-
     await productsController.showProductById(req, res);
 
     expect(res.status.calledWith(200)).to.be.equal(true);
@@ -60,11 +59,6 @@ describe('Testando o controller de produtos', function () {
       params: {
         id: 1,
       },
-    };
-
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
     };
 
     await productsController.showProductById(req, res);
@@ -83,11 +77,6 @@ describe('Testando o controller de produtos', function () {
       body: {
         name: 'Asas do Falcão',
       },
-    };
-
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
     };
 
     await productsController.addNewProduct(req, res);
@@ -111,11 +100,6 @@ describe('Testando o controller de produtos', function () {
       },
     };
 
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-
     await productsController.updateProduct(req, res);
 
     expect(res.status.calledWith(200)).to.be.equal(true);
@@ -134,11 +118,6 @@ describe('Testando o controller de produtos', function () {
       },
     };
 
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-
     await productsController.updateProduct(req, res);
 
     expect(res.status.calledWith(404)).to.be.equal(true);
@@ -155,11 +134,6 @@ describe('Testando o controller de produtos', function () {
       params: {
         id: 1,
       },
-    };
-
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
     };
 
     await productsController.deleteProduct(req, res);
